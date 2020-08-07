@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csii.travels.dao.PlaceDao">
+
+    <!--根据省份id查询所有的景点信息并排序-->
+    <select id="findPageByProId" resultType="Place">
+        select
+              *
+        from
+              t_place
+        where
+              provinceid = #{provinceId}
+        order by
+              hotticket
+        limit
+              #{start} , #{size}
+    </select>
+
+    <!--根据省份id查询景点总数-->
+    <select id="findCountsByProId" resultType="Integer" >
+        select
+                count(id)
+        from
+                t_place
+        where
+                provinceid = #{provinceId}
+    </select>
+
+    <!--保存place景点-->
+    <insert id="save" parameterType="Place" useGeneratedKeys="true" keyProperty="id">
+        insert into
+                    t_place
+        values
+        (#{id},#{name},#{picpath},#{hottime},#{hotticket},#{dimticket},#{placedes},#{provinceid})
+    </insert>
+
+    <!--根据id删除景点-->
+    <delete id="delete">
+        delete from t_place where id = #{id}
+    </delete>
+
+    <!--根据id查询景点信息-->
+    <select id="findOne" resultType="Place">
+        select
+                id,
+                name,
+                picpath,
+                hottime,
+                hotticket,
+                dimticket,
+                placedes,
+                provinceid
+        from
+                t_place
+        where
+                id = #{id}
+    </select>
+
+    <!--更新景点信息-->
+    <update id="update">
+
+        update t_place set
+
+                name = #{name},
+                picpath = #{picpath},
+                hottime = #{hottime},
+                hotticket = #{hotticket},
+                dimticket = #{dimticket},
+                placedes = #{placedes},
+                provinceid = #{provinceid}
+
+        where id = #{id}
+
+    </update>
+
+</mapper>
